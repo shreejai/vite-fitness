@@ -1,5 +1,6 @@
 import SectionWrapper from "./SectionWrapper";
-import {WORKOUTS} from "../utils/swoldier.js"
+import {SCHEMES, WORKOUTS} from "../utils/swoldier.js"
+import { useState } from "react";
 
 function Header(props){
   const {index, title, description} = props
@@ -16,6 +17,16 @@ function Header(props){
 }
 
 export default function Generator() {
+
+  const [showModal, setShowModal] = useState(false);
+  const [poison, setPoison] = useState('individual');
+  const [muscles, setMuscles] = useState([]);
+  const [goal, setGoal] = useState('strength_power');
+
+  function toggleModal() {
+    setShowModal(!showModal)
+  }
+
   return (
     <SectionWrapper header={"generate your workout"} title={[
       'It\'s', 'Huge', 'o\'clock'
@@ -24,18 +35,33 @@ export default function Generator() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {Object.keys(WORKOUTS).map((type, typeIndex) => {
           return (
-            <button className="bg-slate-950 border border-blue-400 duration-200 hover:border-blue-600 py-3" key={typeIndex}>
+            <button onClick={() => {
+              setPoison(type)
+            }} className={'bg-slate-950 border  duration-200  py-3 ' + (type === poison ? 'border-blue-600': 'border-blue-400')} key={typeIndex}>
               <p className="capitalize">{type.replaceAll('_', ' ')}</p>
             </button>
           )
         })}
       </div>
       <Header index={"02"} title={"Lock on targets"} description={"Select the muscles judged for annihilation."}/>
-      <div className="bg-slate-950 p-3 border border-blue-400">
-        <div>
+      <div className="bg-slate-950 border border-blue-400 flex flex-col">
+        <button onClick={toggleModal} className="relative p-3 flex items-center justify-center">
           <p>Select muscle groups</p>
-          <i className="fa-solid fa-caret-down"></i>
-        </div>
+          <i className="fa-solid absolute right-3 top-1/2 -translate-y-1/2 fa-caret-down"></i>
+        </button>
+        {showModal && (<div>modal</div>)}
+      </div>
+      <Header index={"03"} title={"Become Juggernaut"} description={"Select your ultimate objective."}/>
+      <div className="grid grid-cols-3 gap-4">
+        {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
+          return (
+            <button onClick={() => {
+              setGoal(scheme)
+            }} className={'bg-slate-950 border  duration-200  py-3 ' + (scheme === goal ? 'border-blue-600': 'border-blue-400')} key={schemeIndex}>
+              <p className="capitalize">{scheme.replaceAll('_', ' ')}</p>
+            </button>
+          )
+        })}
       </div>
       
     </SectionWrapper>
