@@ -1,4 +1,5 @@
 import SectionWrapper from "./SectionWrapper";
+import {WORKOUTS} from "../utils/swoldier.js"
 
 function Header(props){
   const {index, title, description} = props
@@ -20,6 +21,23 @@ export default function Generator() {
       'It\'s', 'Huge', 'o\'clock'
     ]}>
       <Header index={"01"} title={"Pick your poison"} description={"Select the workout you wish to endure."}/>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {Object.keys(WORKOUTS).map((type, typeIndex) => {
+          return (
+            <button className="bg-slate-950 border border-blue-400 duration-200 hover:border-blue-600 py-3" key={typeIndex}>
+              <p className="capitalize">{type.replaceAll('_', ' ')}</p>
+            </button>
+          )
+        })}
+      </div>
+      <Header index={"02"} title={"Lock on targets"} description={"Select the muscles judged for annihilation."}/>
+      <div className="bg-slate-950 p-3 border border-blue-400">
+        <div>
+          <p>Select muscle groups</p>
+          <i className="fa-solid fa-caret-down"></i>
+        </div>
+      </div>
+      
     </SectionWrapper>
   )
 }
