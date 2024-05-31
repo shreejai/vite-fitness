@@ -27,6 +27,24 @@ export default function Generator() {
     setShowModal(!showModal)
   }
 
+  function updateMuscles(muscleGroup){
+    if(muscles.includes(muscleGroup)){
+      setMuscles(muscles.filter(val => val !== muscleGroup))
+      return
+    }
+    
+    if(muscles.length > 3) {
+      return
+    }
+
+    if(poison !== 'individual'){
+      setMuscles(muscleGroup)
+      return
+    }
+
+    setMuscles([...muscles, muscleGroup])
+  }
+
   return (
     <SectionWrapper header={"generate your workout"} title={[
       'It\'s', 'Huge', 'o\'clock'
@@ -53,7 +71,9 @@ export default function Generator() {
           <div className="flex flex-col px-3 pb-3">
             {(poison === 'individual' ? [poison] : Object.keys(WORKOUTS[poison])).map((muscleGroup, muscleGroupIndex) => {
               return(
-                <button className="hover:text-blue-200 duration-200" key={muscleGroupIndex}>
+                <button onClick={() => {
+                  updateMuscles(muscleGroup)
+                }} key={muscleGroupIndex} className={'hover:text-blue-400 duration-200 ' + (muscles.includes(muscleGroup) ? 'text-blue-400': '')} >
                   <p className="uppercase">{muscleGroup}</p>
                 </button>
               )
